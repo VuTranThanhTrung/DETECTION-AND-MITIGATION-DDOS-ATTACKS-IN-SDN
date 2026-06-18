@@ -4,12 +4,11 @@
 File: generate_dataset_zta.py
 Mục đích: Tự động hóa sinh lưu lượng mạng (Traffic Generation) trong môi trường Mininet
 sử dụng chính xác các công cụ và câu lệnh mô tả trong tài liệu "cac_cau_lenh_sinh_traffic.md".
-Bộ dữ liệu gồm 5 lớp (Classes) được lưu trực tiếp thành các file CSV riêng biệt:
+Bộ dữ liệu gồm 4 lớp (Classes) được lưu trực tiếp thành các file CSV riêng biệt:
   0. Benign (Lưu lượng sạch - wget, curl, ab, iperf3, dig, nslookup, ping từ nhiều host)
-  1. Brute Force (Tấn công dò quét thông tin đăng nhập bằng ncrack trên cổng 22 SSH và cổng 21 FTP)
-  2. DDoS (Tấn công SYN/UDP/ICMP Flood giả mạo IP nguồn --rand-source với chế độ --flood)
-  3. DoS (Tấn công đơn nguồn Slowloris, Slow POST bằng slowhttptest và TCP SYN Flood --flood)
-  4. Port Scan (Quét cổng TCP SYN Scan -sS, TCP Connect -sT, UDP Scan -sU bằng nmap)
+  1. DDoS (Tấn công SYN/UDP/ICMP Flood giả mạo IP nguồn --rand-source với chế độ --flood)
+  2. DoS (Tấn công đơn nguồn Slowloris, Slow POST bằng slowhttptest và TCP SYN Flood --flood)
+  3. Port Scan (Quét cổng TCP SYN Scan -sS, TCP Connect -sT, UDP Scan -sU bằng nmap)
 """
 
 import os
@@ -142,26 +141,10 @@ def startNetwork():
         clear_switch_flows()
 
     # ═══════════════════════════════════════════════════════════════
-    # GIAI ĐOẠN 1: BRUTE FORCE ATTACK (NHÃN 1)
+    # GIAI ĐOẠN 1: DDOS ATTACK (NHÃN 1)
     # ═══════════════════════════════════════════════════════════════
-    set_controller_config("bruteforce.csv", 1)
-    print("\n[+] GIAI ĐOẠN 1: BẮT ĐẦU TẠO TẤN CÔNG BRUTE FORCE (NCRACK)")
-    print("Giải thích cmd sinh traffic Brute Force (Theo cac_cau_lenh_sinh_traffic.md):")
-    print("  -> h8: ncrack -p 22 --user admin --pass admin 10.0.0.1 (Dò quét cổng SSH 22)")
-    print("  -> h7: ncrack -p 21 --user admin --pass admin 10.0.0.2 (Dò quét cổng FTP 21)")
-
-    print("  -> Tiến hành: h8 và h7 khởi chạy Ncrack quét thông tin đăng nhập...")
-    h8.cmd("ncrack -p 22 --user admin --pass admin 10.0.0.1 >/dev/null 2>&1 &")
-    h7.cmd("ncrack -p 21 --user admin --pass admin 10.0.0.2 >/dev/null 2>&1 &")
-    time.sleep(12)
-    os.system("sudo pkill -9 ncrack")
-    clear_switch_flows()
-
-    # ═══════════════════════════════════════════════════════════════
-    # GIAI ĐOẠN 2: DDOS ATTACK (NHÃN 2)
-    # ═══════════════════════════════════════════════════════════════
-    set_controller_config("ddos.csv", 2)
-    print("\n[+] GIAI ĐOẠN 2: BẮT ĐẦU TẠO TẤN CÔNG DDOS (--FLOOD & --RAND-SOURCE)")
+    set_controller_config("ddos.csv", 1)
+    print("\n[+] GIAI ĐOẠN 1: BẮT ĐẦU TẠO TẤN CÔNG DDOS (--FLOOD & --RAND-SOURCE)")
     print("Giải thích cmd sinh traffic DDoS (Theo cac_cau_lenh_sinh_traffic.md):")
     print("  -> h8: hping3 -S -p 80 --flood --rand-source 10.0.0.1 (DDoS TCP SYN Flood)")
     print("  -> h7: hping3 --udp -p 53 --flood --rand-source 10.0.0.3 (DDoS UDP Flood)")
@@ -178,10 +161,10 @@ def startNetwork():
         clear_switch_flows()
 
     # ═══════════════════════════════════════════════════════════════
-    # GIAI ĐOẠN 3: DOS ATTACK (NHÃN 3)
+    # GIAI ĐOẠN 2: DOS ATTACK (NHÃN 2)
     # ═══════════════════════════════════════════════════════════════
-    set_controller_config("dos.csv", 3)
-    print("\n[+] GIAI ĐOẠN 3: BẮT ĐẦU TẠO TẤN CÔNG DOS (SLOWHTTPTEST & HPING3 ĐƠN NGUỒN)")
+    set_controller_config("dos.csv", 2)
+    print("\n[+] GIAI ĐOẠN 2: BẮT ĐẦU TẠO TẤN CÔNG DOS (SLOWHTTPTEST & HPING3 ĐƠN NGUỒN)")
     print("Giải thích cmd sinh traffic DoS (Theo cac_cau_lenh_sinh_traffic.md):")
     print("  -> h8: slowhttptest -c 1000 -H -i 10 -r 200 -t GET -u http://10.0.0.1/ (Slowloris GET)")
     print("  -> h7: slowhttptest -c 1000 -B -i 10 -r 200 -s 8192 -t POST -u http://10.0.0.2/ (Slow POST)")
@@ -198,10 +181,10 @@ def startNetwork():
         clear_switch_flows()
 
     # ═══════════════════════════════════════════════════════════════
-    # GIAI ĐOẠN 4: PORT SCANNING (NHÃN 4)
+    # GIAI ĐOẠN 3: PORT SCANNING (NHÃN 3)
     # ═══════════════════════════════════════════════════════════════
-    set_controller_config("portscan.csv", 4)
-    print("\n[+] GIAI ĐOẠN 4: BẮT ĐẦU TẠO HOẠT ĐỘNG DÒ QUÉT CỔNG (NMAP)")
+    set_controller_config("portscan.csv", 3)
+    print("\n[+] GIAI ĐOẠN 3: BẮT ĐẦU TẠO HOẠT ĐỘNG DÒ QUÉT CỔNG (NMAP)")
     print("Giải thích cmd quét cổng (Theo cac_cau_lenh_sinh_traffic.md):")
     print("  -> h8: nmap -sS -p 1-65535 10.0.0.1 (TCP SYN Stealth Scan quét toàn bộ cổng)")
     print("  -> h7: nmap -sT -p 1-1000 10.0.0.2 (TCP Connect Scan)")

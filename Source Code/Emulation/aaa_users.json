@@ -1,0 +1,86 @@
+{
+    "users": {
+        "10.0.0.1": {
+            "username": "web_server_1",
+            "role": "system",
+            "clearance": "high"
+        },
+        "10.0.0.2": {
+            "username": "web_server_2",
+            "role": "system",
+            "clearance": "high"
+        },
+        "10.0.0.3": {
+            "username": "dns_server_1",
+            "role": "system",
+            "clearance": "high"
+        },
+        "10.0.0.4": {
+            "username": "dns_server_2",
+            "role": "system",
+            "clearance": "high"
+        },
+        "10.0.0.5": {
+            "username": "db_server_1",
+            "role": "system",
+            "clearance": "high"
+        },
+        "10.0.0.6": {
+            "username": "db_server_2",
+            "role": "system",
+            "clearance": "high"
+        },
+        "10.0.0.7": {
+            "username": "employee_user",
+            "role": "employee",
+            "clearance": "medium"
+        },
+        "10.0.0.8": {
+            "username": "anonymous_user",
+            "role": "guest",
+            "clearance": "low"
+        }
+    },
+    "devices": {
+        "10.0.0.1": {
+            "os": "Linux",
+            "compliant": true,
+            "certificates": "valid"
+        },
+        "10.0.0.2": {
+            "os": "Linux",
+            "compliant": true,
+            "certificates": "valid"
+        },
+        "10.0.0.3": {
+            "os": "Linux",
+            "compliant": true,
+            "certificates": "valid"
+        },
+        "10.0.0.4": {
+            "os": "Linux",
+            "compliant": true,
+            "certificates": "valid"
+        },
+        "10.0.0.5": {
+            "os": "Linux",
+            "compliant": true,
+            "certificates": "valid"
+        },
+        "10.0.0.6": {
+            "os": "Linux",
+            "compliant": true,
+            "certificates": "valid"
+        },
+        "10.0.0.7": {
+            "os": "Windows",
+            "compliant": true,
+            "certificates": "valid"
+        },
+        "10.0.0.8": {
+            "os": "Unknown",
+            "compliant": false,
+            "certificates": "none"
+        }
+    }
+}

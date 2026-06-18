@@ -68,3 +68,27 @@ mininet> h8 python3 "/home/vuxtrung/KLTN_ver2/Source Code/Mininet/hulk.py" http:
 
 GOLDEN EYE DOS
 mininet> h8 python3 "/home/vuxtrung/KLTN_ver2/Source Code/Mininet/goldeneye.py" http://10.0.0.1/ -w 20 -s 100
+
+
+## 4. Thu Thập Số Liệu & Đánh Giá Hiệu Năng (Chương Thực Nghiệm KLTN)
+
+Sau khi tích hợp hoàn chỉnh hệ thống ZTA Modular, Ryu Controller sẽ tự động ghi lại toàn bộ nhật ký phân loại và hành động an ninh theo chu kỳ vào file:
+`/home/vuxtrung/KLTN_ver2/Source Code/Controller/zta_evaluation_metrics.csv`
+
+### Các bước lấy số liệu và vẽ đồ thị tự động:
+1. Đảm bảo bạn đã cài đặt các thư viện hỗ trợ xử lý số liệu:
+   ```bash
+   pip install pandas matplotlib
+   ```
+
+2. Sau khi chạy mô phỏng xong các kịch bản tấn công ở trên, tắt Mininet và Ryu Controller.
+
+3. Chạy script phân tích để nhận báo cáo số liệu và tự động xuất đồ thị biến thiên điểm tin cậy:
+   ```bash
+   cd "/home/vuxtrung/KLTN_ver2/Source Code/Controller"
+   python3 evaluate_zta_metrics.py
+   ```
+
+### Kết quả đầu ra:
+* **Báo cáo trên Terminal:** Hiển thị tỉ lệ phần trăm các loại luồng quét qua AI, thống kê hành động kiểm soát ZTA của Switch, độ trễ thời gian phát hiện và cô lập cuộc tấn công (Detection Latency).
+* **Đồ thị trực quan:** File hình ảnh `zta_trust_scores_progression.png` được tự động tạo ra, biểu diễn chi tiết luồng thay đổi điểm tin cậy (Trust Score) của từng Host. Bạn chỉ cần copy file ảnh này dán trực tiếp vào slide thuyết trình hoặc quyển báo cáo khóa luận!
